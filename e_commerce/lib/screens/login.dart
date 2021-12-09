@@ -1,4 +1,8 @@
 import 'package:e_commerce/screens/sign_up.dart';
+import 'package:e_commerce/widgets/button.dart';
+import 'package:e_commerce/widgets/changescreen.dart';
+import 'package:e_commerce/widgets/mytextformfiels.dart';
+import 'package:e_commerce/widgets/passwordfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +29,30 @@ void validation() {
 bool obserText = true;
 
 class _LoginState extends State<Login> {
+  Widget _buildAllTextFormFIelds() {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          MyTextFormField("Email", (value) {
+            if (value == "")
+              return "Внесете емаил!";
+            else if (!regExp.hasMatch(value!)) {
+              return "Невалидна емаил";
+            }
+            return "";
+          }),
+          PasswordField(true, () {
+            FocusScope.of(context).unfocus();
+            setState(() {
+              obserText = !obserText;
+            });
+          }),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,75 +76,12 @@ class _LoginState extends State<Login> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    TextFormField(
-                      validator: (value) {
-                        if (value == "")
-                          return "Внесете емаил!";
-                        else if (!regExp.hasMatch(value!)) {
-                          return "Невалидна емаил";
-                        }
-                        return "";
-                      },
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: "Email",
-                        hintStyle: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                    TextFormField(
-                      obscureText: obserText,
-                      validator: (value) {
-                        if (value == "") {
-                          return "Внеси лозинка!";
-                        } else if (value!.length < 8) {
-                          return "Лозинката е кратка";
-                        }
-                        return "";
-                      },
-                      decoration: InputDecoration(
-                        hintText: "password",
-                        border: OutlineInputBorder(),
-                        suffixIcon: GestureDetector(
-                            onTap: () {
-                              FocusScope.of(context).unfocus();
-                              setState(() {
-                                obserText = !obserText;
-                              });
-                            },
-                            child: Icon(
-                              obserText == true
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                              color: Colors.black,
-                            )),
-                        hintStyle: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                    Container(
-                      width: double.infinity,
-                      child: RaisedButton(
-                          color: Colors.grey,
-                          child: Text("Најава"),
-                          onPressed: () {
-                            validation();
-                          }),
-                    ),
-                    Row(
-                      children: [
-                        Text("Немам сметка!"),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        GestureDetector(
-                          child: Text("Регистрирај се",
-                              style: TextStyle(color: Colors.cyan)),
-                          onTap: () {
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(builder: (ctx) => SignUp()));
-                          },
-                        )
-                      ],
-                    ),
+                    _buildAllTextFormFIelds(),
+                    Button("Најава", validation),
+                    ChangeScreen("Немам сметка!", "Регистрирај се", () {
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (ctx) => SignUp()));
+                    }),
                   ],
                 ),
               )
