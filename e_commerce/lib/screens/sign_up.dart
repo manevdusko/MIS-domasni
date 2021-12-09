@@ -1,3 +1,4 @@
+import 'package:e_commerce/screens/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -119,14 +120,19 @@ class _SignUpState extends State<SignUp> {
                             width: 10,
                           ),
                           GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (ctx) => Login()));
+                              },
                               child: Text(
-                            "Најава",
-                            style: TextStyle(
-                              color: Colors.cyan,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ))
+                                "Најава",
+                                style: TextStyle(
+                                  color: Colors.cyan,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ))
                         ],
                       ),
                     ],
